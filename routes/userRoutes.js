@@ -5,8 +5,10 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
 // POST /user/register
-router.post('/register', async (req, res) => {
-    try {
+router.post('/register', async (req, res) => 
+{
+    try 
+    {
         const { email, password } = req.body;
 
         const existingUser = await User.findOne({ email });
@@ -19,7 +21,9 @@ router.post('/register', async (req, res) => {
         await user.save();
 
         res.status(201).json({ message: 'User registered successfully' });
-    } catch (err) {
+    } 
+    catch (err) 
+    {
         res.status(500).json({ message: 'Server error', error: err.message });
     }
 });
