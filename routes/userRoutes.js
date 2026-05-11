@@ -30,7 +30,8 @@ router.post('/register', async (req, res) =>
 
 // POST /user/login
 router.post('/login', async (req, res) => {
-    try {
+    try 
+    {
         const { email, password } = req.body;
 
         const user = await User.findOne({ email });
@@ -45,7 +46,9 @@ router.post('/login', async (req, res) => {
 
         const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET);
         res.json({ token });
-    } catch (err) {
+    } 
+    catch (err) 
+    {
         res.status(500).json({ message: 'Server error', error: err.message });
     }
 });
