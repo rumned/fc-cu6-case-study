@@ -5,9 +5,11 @@ const cors = require('cors');
 
 const app = express();
 app.use(express.json());
-app.use(cors());  // must be here, before routes
+app.use(cors({
+    origin: 'http://localhost:5173'
+}));
 
-mongoose.connect(process.env.MONGO_URI)
+mongoose.connect(process.env.MONGODB_URI)
     .then(() => console.log('Connected to MongoDB'))
     .catch(err => console.error(err));
 

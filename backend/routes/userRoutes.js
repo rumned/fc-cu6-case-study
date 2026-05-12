@@ -16,7 +16,9 @@ router.post('/register', async (req, res) =>
             return res.status(400).json({ message: 'Email already exists' });
         }
 
-        const hashedPassword = await bcrypt.hash(password, 10);
+        const saltRounds = parseInt(process.env.BCRYPT_SALT_ROUNDS);
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+
         const user = new User({ email, password: hashedPassword });
         await user.save();
 
@@ -32,7 +34,6 @@ router.post('/register', async (req, res) =>
 router.post('/login', async (req, res) => {
     try 
     {
-        console.log('req.body:', req.body); 
         const { email, password } = req.body;
 
         const user = await User.findOne({ email });
@@ -45,7 +46,9 @@ router.post('/login', async (req, res) => {
             return res.status(401).json({ message: 'Invalid credentials' });
         }
 
-        const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET);
+        const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET, {
+            expiresIn: process.env.JWT_EXPIRES_IN
+        });
         res.json({ token });
     } 
     catch (err) 

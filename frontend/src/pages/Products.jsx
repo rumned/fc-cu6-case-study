@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../utils/api';
 
 function Products() {
     const [products, setProducts] = useState([]);
@@ -16,7 +16,7 @@ function Products() {
         }
 
         // fetch products
-        axios.get('http://localhost:3000/products', {
+        api.get('/products', {
             headers: {
                 Authorization: `Bearer ${token}`
             }
