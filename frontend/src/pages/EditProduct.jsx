@@ -15,6 +15,7 @@ function EditProduct() {
     const [showConfirm, setShowConfirm] = useState(false);
     const [updating, setUpdating] = useState(false);
     const [deleting, setDeleting] = useState(false);
+    const [originalProduct, setOriginalProduct] = useState(null);
     const navigate = useNavigate();
     const { id } = useParams();
 
@@ -36,6 +37,7 @@ function EditProduct() {
             setCategory(product.category || '');
             setInStock(product.inStock);
             setImageUrl(product.imageUrl || '');
+            setOriginalProduct(product);
             setLoading(false);
         })
         .catch(err => {
@@ -63,15 +65,23 @@ function EditProduct() {
             return;
         }
 
+        // build object with only changed fields
+        const updatedFields = {};
+        if (name !== originalProduct.name) updatedFields.name = name;
+        if (description !== (originalProduct.description || '')) updatedFields.description = description;
+        if (parseFloat(price) !== originalProduct.price) updatedFields.price = parseFloat(price);
+        if (category !== (originalProduct.category || '')) updatedFields.category = category;
+        if (inStock !== originalProduct.inStock) updatedFields.inStock = inStock;
+        if (imageUrl !== (originalProduct.imageUrl || '')) updatedFields.imageUrl = imageUrl;
+
+        // if nothing changed, just go back
+        if (Object.keys(updatedFields).length === 0) {
+            navigate('/products');
+            return;
+        }
+
         try {
-            await api.patch(`/products/${id}`, {
-                name,
-                description,
-                price: parseFloat(price),
-                category,
-                inStock,
-                imageUrl
-            }, {
+            await api.patch(`/products/${id}`, updatedFields, {
                 headers: { Authorization: `Bearer ${token}` }
             });
 
@@ -114,12 +124,12 @@ function EditProduct() {
     if (loading) return <p>Loading...</p>;
 
     return (
-        <div>
+        <div className='container'>
             <h1>Edit Product</h1>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            {success && <p style={{ color: 'green' }}>{success}</p>}
+            {error && <p className='error-message'>{error}</p>}
+            {success && <p className='success-message'>{success}</p>}
             <form onSubmit={handleUpdate}>
-                <div>
+                <div className='form-items'>
                     <label>Name</label>
                     <input
                         type="text"
@@ -127,14 +137,14 @@ function EditProduct() {
                         onChange={(e) => setName(e.target.value)}
                     />
                 </div>
-                <div>
+                <div className='form-items'>
                     <label>Description</label>
                     <textarea
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                     />
                 </div>
-                <div>
+               <div className='form-items'>
                     <label>Price</label>
                     <input
                         type="number"
@@ -142,7 +152,7 @@ function EditProduct() {
                         onChange={(e) => setPrice(e.target.value)}
                     />
                 </div>
-                <div>
+                <div className='form-items'>
                     <label>Category</label>
                     <input
                         type="text"
@@ -150,15 +160,7 @@ function EditProduct() {
                         onChange={(e) => setCategory(e.target.value)}
                     />
                 </div>
-                <div>
-                    <label>In Stock</label>
-                    <input
-                        type="checkbox"
-                        checked={inStock}
-                        onChange={(e) => setInStock(e.target.checked)}
-                    />
-                </div>
-                <div>
+                <div className='form-items'>
                     <label>Image URL</label>
                     <input
                         type="text"
@@ -166,19 +168,29 @@ function EditProduct() {
                         onChange={(e) => setImageUrl(e.target.value)}
                     />
                 </div>
-                <button type="submit" disabled={updating}>
-                    {updating ? 'Updating...' : 'Update Product'}
-                </button>
-                <button type="button" onClick={() => navigate('/products')}>Cancel</button>
-                <button type="button" onClick={() => setShowConfirm(true)} disabled={deleting} style={{ color: 'red' }}>
-                    Delete Product
-                </button>
+                <div className='form-items-checkbox'>
+                    <label>In Stock</label>
+                    <input
+                        type="checkbox"
+                        checked={inStock}
+                        onChange={(e) => setInStock(e.target.checked)}
+                    />
+                </div>
+                <div className='button-row'>
+                    <button type="submit" disabled={updating} className='btn-add'>
+                        {updating ? 'Updating...' : 'Update Product'}
+                    </button>
+                    <button type="button" className='btn-secondary' onClick={() => navigate('/products')}>Cancel</button>
+                    <button type="button" className= 'btn-danger' onClick={() => setShowConfirm(true)} disabled={deleting}>
+                        Delete Product
+                    </button>
+                </div>
             </form>
 
             {showConfirm && (
-                <div>
+                <div className = 'button-row'>
                     <p>Are you sure you want to delete this product?</p>
-                    <button onClick={handleDelete} disabled={deleting}>
+                    <button className = 'btn-danger' onClick={handleDelete} disabled={deleting}>
                         {deleting ? 'Deleting...' : 'Confirm Delete'}
                     </button>
                     <button onClick={() => setShowConfirm(false)}>Cancel</button>

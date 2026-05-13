@@ -63,12 +63,12 @@ function AddProduct() {
     };
 
     return (
-        <div>
+        <div className='container'>
             <h1>Add New Product</h1>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            {success && <p style={{ color: 'green' }}>{success}</p>}
+            {error && <p className='error-message'>{error}</p>}
+            {success && <p className='success-message'>{success}</p>}
             <form onSubmit={handleSubmit}>
-                <div>
+                <div className='form-items'>
                     <label>Name (required)</label>
                     <input
                         type="text"
@@ -76,14 +76,14 @@ function AddProduct() {
                         onChange={(e) => setName(e.target.value)}
                     />
                 </div>
-                <div>
+                <div className='form-items'>
                     <label>Description</label>
                     <textarea
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                     />
                 </div>
-                <div>
+                <div className='form-items'>
                     <label>Price (required)</label>
                     <input
                         type="number"
@@ -91,7 +91,7 @@ function AddProduct() {
                         onChange={(e) => setPrice(e.target.value)}
                     />
                 </div>
-                <div>
+                <div className='form-items'>
                     <label>Category</label>
                     <input
                         type="text"
@@ -99,15 +99,7 @@ function AddProduct() {
                         onChange={(e) => setCategory(e.target.value)}
                     />
                 </div>
-                <div>
-                    <label>In Stock</label>
-                    <input
-                        type="checkbox"
-                        checked={inStock}
-                        onChange={(e) => setInStock(e.target.checked)}
-                    />
-                </div>
-                <div>
+                <div className='form-items'>
                     <label>Image URL</label>
                     <input
                         type="text"
@@ -115,8 +107,20 @@ function AddProduct() {
                         onChange={(e) => setImageUrl(e.target.value)}
                     />
                 </div>
-                <button type="submit" disabled= {loading}>{loading ? 'Creating...' : 'Create Product'}</button>
-                <button type="button" onClick={() => navigate('/products')}>Cancel</button>
+                <div className='form-items-checkbox'>
+                    <label>In Stock</label>
+                    <input
+                        type="checkbox"
+                        checked={inStock}
+                        onChange={(e) => setInStock(e.target.checked)}
+                    />
+                </div>
+                <div className='button-row'>
+                    <button type="submit" className='btn-add' disabled={loading}>
+                        {loading ? 'Creating...' : 'Create Product'}
+                    </button>
+                    <button type="button" className='btn-secondary' onClick={() => navigate('/products')}>Cancel</button>
+                </div>
             </form>
         </div>
     );

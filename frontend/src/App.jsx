@@ -3,6 +3,7 @@ import Login from './pages/Login';
 import Products from './pages/Products';
 import AddProduct from './pages/AddProduct';
 import EditProduct from './pages/EditProduct';
+import './App.css';
 
 function App() {
   return ( 

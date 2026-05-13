@@ -34,28 +34,28 @@ function Login() {
     };
 
     return (
-        <div>
+        <div className = "container">
             <h1>Login</h1>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            {/* same as {error ? <p style={{ color: 'red' }}>{error}</p> : null} */}
+            {error && <p className='error-message'>{error}</p>}
+            {/* same as {error ? <p className='error-message}>{error}</p> : null} */}
             <form onSubmit={handleLogin}>
-                <div>
-                    <label>Email</label>
+                <div className = "form-items">
+                    <label>Email:</label>
                     <input
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                     />
                 </div>
-                <div>
-                    <label>Password</label>
+                <div className = "form-items">
+                    <label>Password:</label>
                     <input
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </div>
-                <button type="submit">Login</button>
+                <button className='btn-primary' type="submit">Login</button>
             </form>
         </div>
     );

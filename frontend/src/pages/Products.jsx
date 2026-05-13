@@ -39,27 +39,31 @@ function Products() {
     };
 
     return (
-        <div>
-            <div>
-                <h1>Products</h1>
-                <button onClick={handleLogout}>Logout</button>
-                <button onClick={() => navigate('/products/new')}>Add New Product</button>
-            </div>
-            <div>
-                {products.map(product => (
-                    <div key={product._id}>
-                        {product.imageUrl && <img src={product.imageUrl} alt={product.name} width="200" />}
-                        <h2>{product.name}</h2>
-                        <p>{product.description}</p>
-                        <p>Price: ${product.price.toFixed(2)}</p>
-                        <p>Category: {product.category}</p>
-                        <p>Status: {product.inStock ? 'In Stock' : 'Out of Stock'}</p>
-                        <button onClick={() => navigate(`/products/edit/${product._id}`)}>Edit</button>
-                    </div>
-                ))}
+    <div className='products-page'>
+        <div className='navbar'>
+            <h1>Products</h1>
+            <div className='button-row'>
+                <button className='btn-add' onClick={() => navigate('/products/new')}>Add New Product</button>
+                <button className='btn-secondary' onClick={handleLogout}>Logout</button>
             </div>
         </div>
-    );
+        <div className="product-container">
+            {products.map(product => (
+                <div key={product._id} className='product-card'>
+                    {product.imageUrl && <img src={product.imageUrl} alt={product.name} />}
+                    <h2>{product.name}</h2>
+                    <p className='product-description'>{product.description}</p>
+                    <p className='product-price'>RM {product.price.toFixed(2)}</p>
+                    <p>{product.category}</p>
+                    <p className={product.inStock ? 'in-stock' : 'out-of-stock'}>
+                        {product.inStock ? 'In Stock' : 'Out of Stock'}
+                    </p>
+                    <button className='btn-primary' onClick={() => navigate(`/products/edit/${product._id}`)}>Edit</button>
+                </div>
+            ))}
+        </div>
+    </div>
+);
 }
 
 export default Products;
