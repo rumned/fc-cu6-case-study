@@ -43,6 +43,7 @@ function Products() {
             <div>
                 <h1>Products</h1>
                 <button onClick={handleLogout}>Logout</button>
+                <button onClick={() => navigate('/products/new')}>Add New Product</button>
             </div>
             <div>
                 {products.map(product => (
@@ -50,9 +51,10 @@ function Products() {
                         {product.imageUrl && <img src={product.imageUrl} alt={product.name} width="200" />}
                         <h2>{product.name}</h2>
                         <p>{product.description}</p>
-                        <p>Price: ${product.price}</p>
+                        <p>Price: ${product.price.toFixed(2)}</p>
                         <p>Category: {product.category}</p>
                         <p>Status: {product.inStock ? 'In Stock' : 'Out of Stock'}</p>
+                        <button onClick={() => navigate(`/products/edit/${product._id}`)}>Edit</button>
                     </div>
                 ))}
             </div>
