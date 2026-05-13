@@ -1,4 +1,10 @@
 # Forward School - NitroDegree in Applied Software Engineering - Back End Web Development Competency Unit 6: Case Study
+
+## Prerequisites
+
+- Node.js installed
+- MongoDB installed and running locally
+
 ## Setup Instructions
 
 ### Backend
@@ -11,8 +17,8 @@
    npm install
 ```
 3. Create a `.env` file based on `.env.example` and fill in your values.
-macOS users might want to set to other port other than 5000 if Airplay is using the port.
-
+   macOS users: set PORT to something other than 5000 if AirPlay is using it.
+   
 4. Seed the database:
 ```bash
    node seedProducts.js
