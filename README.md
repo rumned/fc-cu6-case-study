@@ -12,6 +12,7 @@
 ```
 3. Create a `.env` file based on `.env.example` and fill in your values
 ```macOS users might want to set to other port other than 5000 if Airplay is using the port
+```
 4. Seed the database:
 ```bash
    node seedProducts.js
